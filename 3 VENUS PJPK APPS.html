@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kembara Permainan Tradisional: Gelap Cerah & Aci Sep</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FF5722;
+            --secondary: #4CAF50;
+            --accent: #FFEB3B;
+            --blue: #2196F3;
+            --purple: #9C27B0;
+            --dark: #2C3E50;
+            --light: #F9F9F9;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+            position: relative;
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header Navigation */
+        .app-header {
+            background: #2E7D32;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #1B5E20;
+        }
+
+        .app-header h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            color: #FFEB3B;
+            letter-spacing: 1px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 15px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Main View Container */
+        .view-screen {
+            padding: 25px;
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .view-screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Screen 1: Login Screen */
+        .login-box {
+            text-align: center;
+            margin: auto;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .login-box h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #2E7D32;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 18px;
+            border: 3px solid #DDD;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2E7D32;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #FF9800, #F44336);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Fredoka One', cursive;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 15px rgba(244, 67, 54, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.03);
+        }
+
+        /* Progress Steps Bar */
+        .progress-bar-container {
+            width: 100%;
+            background: #E0E0E0;
+            height: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Section Titles */
+        .step-title {
+            font-family: 'Fredoka One', cursive;
+            color: #1B5E20;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Game Cards & Interactive Buttons */
+        .info-card {
+            background: #E8F5E9;
+            border-left: 6px solid #2E7D32;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            background: #FFF;
+            border: 3px solid #E0E0E0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option-card:hover {
+            border-color: #2E7D32;
+            background: #F1F8E9;
+            transform: translateY(-5px);
+        }
+
+        .option-card.selected {
+            border-color: #4CAF50;
+            background: #C8E6C9;
+        }
+
+        .option-card i {
+            font-size: 2.5rem;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        /* Mini-Games Specific Styling */
+        .tap-game-area {
+            background: #E0F2F1;
+            height: 220px;
+            border-radius: 15px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 3px dashed #009688;
+        }
+
+        .runner-btn {
+            background: #FF5722;
+            color: white;
+            border: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #D84315;
+            transition: transform 0.1s;
+        }
+
+        .runner-btn:active {
+            transform: scale(0.9) translateY(4px);
+            box-shadow: 0 1px 0 #D84315;
+        }
+
+        /* Navigation Footer */
+        .nav-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 2px solid #EEE;
+        }
+
+        .btn-nav {
+            padding: 10px 22px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-prev { background: #E0E0E0; color: #333; }
+        .btn-next { background: #2E7D32; color: white; }
+        .btn-next:disabled { background: #CCC; cursor: not-allowed; }
+
+        /* Summary Badges */
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .badge-box {
+            background: #FFF8E1;
+            border: 2px solid #FFC107;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            width: 120px;
+        }
+
+        .badge-box i {
+            font-size: 2rem;
+            color: #FFB300;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header App -->
+    <div class="app-header">
+        <h2><i class="fa-solid fa-gamepad"></i> GELAP CERAH & ACI SEP</h2>
+        <div class="user-stats">
+            <div class="stat-badge"><i class="fa-solid fa-user-astronaut"></i> <span id="display-name">Murid</span></div>
+            <div class="stat-badge"><i class="fa-solid fa-star" style="color: #FFD700;"></i> <span id="display-xp">0 XP</span></div>
+        </div>
+    </div>
+
+    <!-- SCREEN 0: LOGIN -->
+    <div id="screen-login" class="view-screen active">
+        <div class="login-box">
+            <h1>Sertai Arena!</h1>
+            <p>Pendidikan Jasmani Tingkatan 3 Venus<br><i>Modul Interaktif Rekreasi & Kesenggangan</i></p>
+            
+            <div class="input-group">
+                <label for="student-name"><i class="fa-solid fa-signature"></i> Nama Anda:</label>
+                <input type="text" id="student-name" placeholder="Contoh: Amirul Hazim" required>
+            </div>
+
+            <div class="input-group">
+                <label for="student-class"><i class="fa-solid fa-school"></i> Kelas:</label>
+                <input type="text" id="student-class" value="3 Venus" readonly>
+            </div>
+
+            <button class="btn-start" onclick="startApp()"><i class="fa-solid fa-play"></i> MULA KEMBARA!</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 1: SET INDUKSI & PANASKAN BADAN (STEP 1) -->
+    <div id="screen-step1" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 15%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-fire-flame-curved" style="color: #FF5722;"></i> Langkah 1: Panaskan Badan!</div>
+        
+        <div class="info-card">
+            <strong>Misi Utama:</strong> Ketik butang di bawah secepat mungkin untuk mengumpul tenaga fizikal sebelum memulakan permainan <i>Gelap Cerah</i> & <i>Aci Sep</i>!
+        </div>
+
+        <div class="tap-game-area">
+            <button class="runner-btn" id="warmup-btn" onclick="tapWarmup()">TEKAN!</button>
+        </div>
+        <p style="text-align: center; margin-top: 10px; font-weight: bold;">Tenaga Dimuatkan: <span id="warmup-score" style="color:#FF5722; font-size:1.4rem;">0</span> / 10</p>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-login')">Kembali</button>
+            <button class="btn-nav btn-next" id="btn-step1-next" disabled onclick="goToScreen('screen-step2')">Seterusnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: TATACARA & PERATURAN ASAS (STEP 2) -->
+    <div id="screen-step2" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 30%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-book-open-reader" style="color: #2196F3;"></i> Langkah 2: Peraturan & Asas Permainan</div>
+        
+        <div class="info-card">
+            Pilih konsep yang betul bagi kedua-dua permainan tradisional ini untuk membuka kunci tahap seterusnya.
+        </div>
+
+        <div class="interactive-grid">
+            <div class="option-card" onclick="selectRule(this, true, 10)">
+                <i class="fa-solid fa-eye-slash"></i>
+                <h3>Gelap Cerah</h3>
+                <p>Menggunakan strategi menyelinap & mengawal kawasan zon "gelap" lawan.</p>
+            </div>
+            <div class="option-card" onclick="selectRule(this, true, 10)">
+                <i class="fa-solid fa-hand-stop"></i>
+                <h3>Aci Sep</h3>
+                <p>Menggunakan isyarat 'SEP' untuk membekukan pergerakan pihak lawan.</p>
+            </div>
+        </div>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-step1')">Kembali</button>
+            <button class="btn-nav btn-next" id="btn-step2-next" disabled onclick="goToScreen('screen-step3')">Seterusnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: SIMULASI TAKTIKAL GELAP CERAH (STEP 3) -->
+    <div id="screen-step3" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 50%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-user-ninja" style="color: #9C27B0;"></i> Langkah 3: Taktik Gelap Cerah</div>
+        
+        <div class="info-card">
+            <strong>Cabaran Menyelinap:</strong> Anda ingin melepasi zon lawan. Pilih lorong strategi yang paling selamat untuk melepasi halangan!
+        </div>
+
+        <div class="interactive-grid">
+            <div class="option-card" onclick="playStealth(1)">
+                <i class="fa-solid fa-road-barrier"></i>
+                <h3>Lorong A (Terus)</h3>
+                <p>Lari secara terus tanpa berhati-hati.</p>
+            </div>
+            <div class="option-card" onclick="playStealth(2)">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Lorong B (Menyelinap)</h3>
+                <p>Gunakan helah pergerakan & koordinasi ruang pantas!</p>
+            </div>
+        </div>
+
+        <div id="stealth-feedback" style="margin-top: 10px; font-weight: bold; text-align: center;"></div>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-step2')">Kembali</button>
+            <button class="btn-nav btn-next" id="btn-step3-next" disabled onclick="goToScreen('screen-step4')">Seterusnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: SIMULASI ACI SEP (STEP 4) -->
+    <div id="screen-step4" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 70%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-bolt" style="color: #FFEB3B;"></i> Langkah 4: Taktik Kepantasan Aci Sep</div>
+        
+        <div class="info-card">
+            <strong>Kecepatan & Koordinasi Masa:</strong> Tekan "SEP!" apabila lampu bertukar hijau untuk mematikan pergerakan pihak lawan!
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div id="signal-light" style="width: 80px; height: 80px; border-radius: 50%; background: red; margin: 0 auto 15px auto; box-shadow: 0 0 15px rgba(0,0,0,0.3);"></div>
+            <button class="runner-btn" style="width: auto; height: auto; padding: 15px 30px; border-radius: 12px;" onclick="triggerSep()">SEP!</button>
+        </div>
+
+        <div id="sep-feedback" style="text-align: center; font-weight: bold; min-height: 25px;"></div>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-step3')">Kembali</button>
+            <button class="btn-nav btn-next" id="btn-step4-next" disabled onclick="goToScreen('screen-step5')">Seterusnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: STRATEGI & PERTUKARAN PERANAN (STEP 5) -->
+    <div id="screen-step5" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 85%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-brain" style="color: #4CAF50;"></i> Langkah 5: Analisis Strategi Pasukan</div>
+        
+        <div class="info-card">
+            <strong>Uji Minda Kognitif:</strong> Pilih <u>dua (2) strategi berkesan</u> yang boleh digunakan untuk melepasi halangan atau mematikan lawan.
+        </div>
+
+        <div class="interactive-grid">
+            <div class="option-card" id="strat-1" onclick="toggleStrategy('strat-1', true)">
+                <i class="fa-solid fa-people-arrows"></i>
+                <p>Komunikasi & umpan pergerakan pengawal lawan.</p>
+            </div>
+            <div class="option-card" id="strat-2" onclick="toggleStrategy('strat-2', false)">
+                <i class="fa-solid fa-person-falling"></i>
+                <p>Berlari membabi buta tanpa melihat kedudukan rakan.</p>
+            </div>
+            <div class="option-card" id="strat-3" onclick="toggleStrategy('strat-3', true)">
+                <i class="fa-solid fa-stopwatch"></i>
+                <p>Eksploitasi koordinasi masa & kecekapan refleks.</p>
+            </div>
+        </div>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-step4')">Kembali</button>
+            <button class="btn-nav btn-next" id="btn-step5-next" disabled onclick="goToScreen('screen-step6')">Seterusnya <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: REFLEKSI & PENCAPAIAN KENDIRI (STEP 6) -->
+    <div id="screen-step6" class="view-screen">
+        <div class="progress-bar-container"><div class="progress-fill" style="width: 100%;"></div></div>
+        <div class="step-title"><i class="fa-solid fa-trophy" style="color: #FFD700;"></i> Sesi Refleksi & Kad Keputusan</div>
+        
+        <div class="info-card" style="text-align: center;">
+            <h3>Tahniah, <span id="final-student-name">Murid</span>!</h3>
+            <p>Anda telah melengkapkan Modul Interaktif Permainan Tradisional Gelap Cerah & Aci Sep.</p>
+        </div>
+
+        <div class="badge-container">
+            <div class="badge-box">
+                <i class="fa-solid fa-medal"></i>
+                <p style="font-weight: bold; margin-top: 5px;">Jaguh Taktik</p>
+            </div>
+            <div class="badge-box">
+                <i class="fa-solid fa-shield-heart"></i>
+                <p style="font-weight: bold; margin-top: 5px;">Tanggungjawab Kendiri</p>
+            </div>
+        </div>
+
+        <div style="background: #FFF; border: 2px solid #E0E0E0; border-radius: 12px; padding: 15px; margin-bottom: 15px;">
+            <h4 style="color: #2E7D32; margin-bottom: 8px;"><i class="fa-solid fa-clipboard-check"></i> Penilaian Kendiri (TP1 - TP3):</h4>
+            <label style="display: block; margin-bottom: 5px;"><input type="checkbox" checked disabled> Saya dapat menerangkan aturan asas permainan secara lisan.</label>
+            <label style="display: block; margin-bottom: 5px;"><input type="checkbox" checked disabled> Saya dapat melakukan kemahiran asas melepasi halangan.</label>
+            <label style="display: block;"><input type="checkbox" checked disabled> Saya seronok & mematuhi semangat kesukanan.</label>
+        </div>
+
+        <div class="nav-footer">
+            <button class="btn-nav btn-prev" onclick="goToScreen('screen-step5')">Kembali</button>
+            <button class="btn-nav btn-next" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak / Simpan Keputusan</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Global App States
+    let studentData = {
+        name: '',
+        class: '3 Venus',
+        xp: 0,
+        warmupCount: 0,
+        selectedRules: 0,
+        selectedStrategies: []
+    };
+
+    function startApp() {
+        const nameInput = document.getElementById('student-name').value.trim();
+        if (nameInput === '') {
+            alert('Sila masukkan nama anda terlebih dahulu!');
+            return;
+        }
+        studentData.name = nameInput;
+        document.getElementById('display-name').innerText = studentData.name;
+        document.getElementById('final-student-name').innerText = studentData.name;
+        goToScreen('screen-step1');
+    }
+
+    function goToScreen(screenId) {
+        document.querySelectorAll('.view-screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function addXP(points) {
+        studentData.xp += points;
+        document.getElementById('display-xp').innerText = studentData.xp + ' XP';
+    }
+
+    // Step 1: Warmup Game Logic
+    function tapWarmup() {
+        if (studentData.warmupCount < 10) {
+            studentData.warmupCount++;
+            document.getElementById('warmup-score').innerText = studentData.warmupCount;
+            addXP(2);
+            if (studentData.warmupCount >= 10) {
+                document.getElementById('btn-step1-next').disabled = false;
+                document.getElementById('warmup-btn').disabled = true;
+                document.getElementById('warmup-btn').innerText = 'SIAP!';
+                document.getElementById('warmup-btn').style.background = '#4CAF50';
+            }
+        }
+    }
+
+    // Step 2: Rules Selection Logic
+    function selectRule(cardElem, isCorrect, xpPoints) {
+        if (!cardElem.classList.contains('selected')) {
+            cardElem.classList.add('selected');
+            studentData.selectedRules++;
+            addXP(xpPoints);
+            if (studentData.selectedRules >= 2) {
+                document.getElementById('btn-step2-next').disabled = false;
+            }
+        }
+    }
+
+    // Step 3: Stealth Logic
+    function playStealth(pathId) {
+        const feedback = document.getElementById('stealth-feedback');
+        if (pathId === 2) {
+            feedback.style.color = '#2E7D32';
+            feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> BERJAYA! Anda menyelinap tanpa dikesan lawan (+20 XP)!';
+            addXP(20);
+            document.getElementById('btn-step3-next').disabled = false;
+        } else {
+            feedback.style.color = '#D32F2F';
+            feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> DUKACITA! Lorong ini terlalu mudah dikesan pengawal lawan. Cuba lagi!';
+        }
+    }
+
+    // Step 4: Timing Light Logic
+    let signalGreen = false;
+    setTimeout(() => {
+        const light = document.getElementById('signal-light');
+        if (light) {
+            light.style.background = '#4CAF50';
+            signalGreen = true;
+        }
+    }, 2000);
+
+    function triggerSep() {
+        const feedback = document.getElementById('sep-feedback');
+        if (signalGreen) {
+            feedback.style.color = '#2E7D32';
+            feedback.innerHTML = '<i class="fa-solid fa-bolt"></i> REFLEKS PANTAS! Lawan dibekukan (+20 XP)!';
+            addXP(20);
+            document.getElementById('btn-step4-next').disabled = false;
+        } else {
+            feedback.style.color = '#D32F2F';
+            feedback.innerHTML = 'Tunggu sehingga lampu bertukar HIJAU!';
+        }
+    }
+
+    // Step 5: Strategy Selection Logic
+    function toggleStrategy(id, isCorrect) {
+        const card = document.getElementById(id);
+        if (isCorrect) {
+            if (!card.classList.contains('selected')) {
+                card.classList.add('selected');
+                studentData.selectedStrategies.push(id);
+                addXP(15);
+            }
+        } else {
+            alert('Strategi ini kurang berkesan untuk mematikan lawan atau melepasi halangan.');
+        }
+
+        if (studentData.selectedStrategies.length >= 2) {
+            document.getElementById('btn-step5-next').disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
